@@ -27,7 +27,7 @@
 
   in
   {
-    nixosConfigurations.nixos = import ./hosts/${systemSettings.profile} { inherit nixpkgs pkgs home-manager systemSettings userSettings; };
+    nixosConfigurations.nixos = import ./profile/personal/default.nix { inherit self nixpkgs pkgs home-manager systemSettings userSettings; };
   };
 }
 

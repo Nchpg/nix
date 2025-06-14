@@ -1,17 +1,19 @@
-{ config, pkgs, ... }:
+{ self, pkgs, userSettings, ... }: {
 
-{
+  imports = [
+    self + "/home-module/sway"
+  ];
+
+  home.username = userSettings.username;
+  home.homeDirectory = userSettings.homeDir;
 
   home.packages = [
     pkgs.bat
     pkgs.wget
     pkgs.gcc
     pkgs.btop
+    pkgs.discord
   ];
-
-  home.file = {
-    
-  };
 
   home.sessionVariables = {
     EDITOR = "vim";

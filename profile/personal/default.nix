@@ -1,4 +1,4 @@
-{ nixpkgs, pkgs, home-manager,systemSettings, userSettings, ... }:
+{ self, nixpkgs, pkgs, home-manager,systemSettings, userSettings, ... }:
 
   nixpkgs.lib.nixosSystem {
     inherit (systemSettings) system;
@@ -7,10 +7,10 @@
 
       home-manager.nixosModules.home-manager
       {
-       home-manager.useGlobalPkgs = true;
+        home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.users.${userSettings.username}.imports = [
-          (import ./home { inherit pkgs userSettings; })
+          (import ./home.nix { inherit self pkgs userSettings; })
         ];
       }
     ];
