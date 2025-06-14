@@ -2,12 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
+{ self, config, pkgs, ... }:
+  let
+    sys_modules = "${self}/sys-modules";
+  in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      "${sys_modules}/sway"
     ];
 
   # Bootloader.
@@ -104,30 +107,20 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    grim
-    slurp
+   
     nwg-look
     palenight-theme
     catppuccin-gtk
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     vim  
 	  git
     alacritty
     pavucontrol
-    swaylock-effects
     tree
 
-    dmenu
-    acpi
-    alsa-utils
-    light
-    playerctl
 
     jetbrains.webstorm
     jetbrains.idea-ultimate
@@ -140,14 +133,8 @@
   # Will be exposed through DBus to programs willing to store secrets.
   services.gnome.gnome-keyring.enable = true;
 
-  # enable Sway window manager
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
-  
-  programs.thunar.enable = true;
 
+  programs.thunar.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -1,17 +1,26 @@
-{ self, nixpkgs, pkgs, home-manager,systemSettings, userSettings, ... }:
+{ self, nixpkgs, home-manager,systemSettings, userSettings, ... }:
 
   nixpkgs.lib.nixosSystem {
     inherit (systemSettings) system;
+
+    specialArgs = {
+      inherit self userSettings; 
+    };
+
     modules = [
       ./configuration.nix
 
       home-manager.nixosModules.home-manager
+      ({ pkgs, ... }:
       {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.users.${userSettings.username}.imports = [
-          (import ./home.nix { inherit self pkgs userSettings; })
-        ];
-      }
+        nixpkgs.config.allowUnfree = true; 
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.${userSettings.username}.imports = [
+            (import ./home.nix { inherit self pkgs userSettings; })
+          ];
+        };
+      })
     ];
   }

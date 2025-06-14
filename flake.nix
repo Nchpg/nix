@@ -18,16 +18,14 @@
 
     userSettings = rec {
       username = "nchpg";
-      homeDir = "/home/${username}";
       name = "nathan";
       email = "nathanchampagne49@gmail.com";
+      homeDir = "/home/${username}";
     };
-
-    pkgs = nixpkgs.legacyPackages.${systemSettings.system};
 
   in
   {
-    nixosConfigurations.nixos = import ./profile/personal/default.nix { inherit self nixpkgs pkgs home-manager systemSettings userSettings; };
+    nixosConfigurations.nixos = import ./profile/${systemSettings.profile} { inherit self nixpkgs home-manager systemSettings userSettings; };
   };
 }
 
