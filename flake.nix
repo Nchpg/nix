@@ -14,6 +14,8 @@
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
       keyboardLayout = "fr";
+      display_manager = "sway";
+      terminal = "foot"; 
     };
 
     userSettings = rec {
@@ -21,7 +23,6 @@
       name = "nathan";
       email = "nathanchampagne49@gmail.com";
       homeDir = "/home/${username}";
-      terminal = "foot"; 
     };
 
   in

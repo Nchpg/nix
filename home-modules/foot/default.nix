@@ -6,7 +6,7 @@
 
     settings = {
       main = {
-        font = "monospace:size=15";
+        font = "monospace:size=16";
       };
     };
   };

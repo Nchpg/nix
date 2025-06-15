@@ -4,7 +4,7 @@
     inherit (systemSettings) system;
 
     specialArgs = {
-      inherit self userSettings; 
+      inherit self userSettings systemSettings; 
     };
 
     modules = [
@@ -16,7 +16,7 @@
         nixpkgs.config.allowUnfree = true; 
         home-manager = {
           extraSpecialArgs = {
-            inherit self userSettings;
+            inherit self userSettings systemSettings;
           };
           useGlobalPkgs = true;
           useUserPackages = true;

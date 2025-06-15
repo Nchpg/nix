@@ -2,16 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ self, config, pkgs, ... }:
+{ self, config, pkgs, systemSettings, ... }:
   let
     sys_modules = "${self}/sys-modules";
   in
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
-      "${sys_modules}/sway"
-    ];
+    ] ++ (if systemSettings.display_manager == "sway" then ["${sys_modules}/sway"] else ["${sys_modules}/gnome"]);
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -21,17 +20,14 @@
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "modesetting" ];
   
+  # Active Flake
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # Define your hostname.
+  networking.hostName = "nixos"; 
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -59,8 +55,6 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -91,7 +85,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nchpg = {
@@ -129,11 +123,6 @@
     rstudio
   ];
 
-  # Enable the gnome-keyring secrets vault.
-  # Will be exposed through DBus to programs willing to store secrets.
-  services.gnome.gnome-keyring.enable = true;
-
-
   programs.thunar.enable = true;
 
   nix.gc = {
@@ -142,24 +131,6 @@
     options = "--delete-older-than 14d"; # What to delete
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
