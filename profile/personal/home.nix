@@ -4,7 +4,7 @@
   in
 {
   imports = [
-    (import "${home_modules}/common.nix" { inherit self pkgs userSettings; })
+    "${home_modules}/common.nix"
     "${home_modules}/sway"
     "${home_modules}/foot"
   ];

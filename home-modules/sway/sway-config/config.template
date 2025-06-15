@@ -2,6 +2,8 @@ input * {
     xkb_layout fr
 }
 
+
+
 input type:touchpad {
     natural_scroll enabled
 }
@@ -12,7 +14,7 @@ output * bg ~/.config/sway/wallpaper.png fill
 # Mod & Terminal
 # 
     set $mod Mod4
-    set $term foot
+    set $term @terminal@
 
 #
 # Basics
@@ -22,6 +24,7 @@ output * bg ~/.config/sway/wallpaper.png fill
     set $up k
     set $right l
     set $menu dmenu_path | dmenu | xargs swaymsg exec --
+    bindsym $mod+Shift+c reload
 
     bindsym $mod+Return exec $term
     bindsym $mod+Shift+q kill

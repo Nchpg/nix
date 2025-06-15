@@ -136,6 +136,12 @@
 
   programs.thunar.enable = true;
 
+  nix.gc = {
+    automatic = true; # Run the garbage collector automatically
+    dates = "weekly"; # How often to run it
+    options = "--delete-older-than 14d"; # What to delete
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

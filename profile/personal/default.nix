@@ -15,10 +15,13 @@
       {
         nixpkgs.config.allowUnfree = true; 
         home-manager = {
+          extraSpecialArgs = {
+            inherit self userSettings;
+          };
           useGlobalPkgs = true;
           useUserPackages = true;
           users.${userSettings.username}.imports = [
-            (import ./home.nix { inherit self pkgs userSettings; })
+            ./home.nix
           ];
         };
       })

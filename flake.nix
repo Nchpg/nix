@@ -21,6 +21,7 @@
       name = "nathan";
       email = "nathanchampagne49@gmail.com";
       homeDir = "/home/${username}";
+      terminal = "foot"; 
     };
 
   in
