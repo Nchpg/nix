@@ -12,12 +12,10 @@
     "${home_modules}/bash"
   ];
 
-  # Commo packages for all profiles
+  # Common packages for all profiles
   home.packages = with pkgs; [
-    bat
-    wget
-    btop
-    python311
+    tree
+    git
   ];
 
   programs.firefox.enable = true;

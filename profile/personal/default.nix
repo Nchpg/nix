@@ -30,6 +30,7 @@ in
           };
           useGlobalPkgs = true;
           useUserPackages = true;
+          backupFileExtension = "bak";
           users.${userSettings.username}.imports = [
             ./home.nix
           ];
