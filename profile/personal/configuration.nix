@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ self, config, pkgs, systemSettings, ... }:
+{ self, config, pkgs, systemSettings, userSettings, ... }:
   let
     sys_modules = "${self}/sys-modules";
   in
@@ -10,59 +10,19 @@
   imports =
     [
       ./hardware-configuration.nix
+      "${sys_modules}/common.nix"
       "${sys_modules}/sway"
       "${sys_modules}/gnome"
     ];
+
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.enableAllFirmware = true;
-
   # GPU
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "modesetting" ];
-  
-  # Active Flake
-  nix = {
-    package = pkgs.nix;
-    settings.experimental-features = [ "nix-command" "flakes" ];
-  };
-
-  virtualisation.docker = {
-    enable = true;
-  };
-
-  # Define your hostname.
-  networking.hostName = "nixos"; 
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Paris";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "fr_FR.UTF-8";
-    LC_IDENTIFICATION = "fr_FR.UTF-8";
-    LC_MEASUREMENT = "fr_FR.UTF-8";
-    LC_MONETARY = "fr_FR.UTF-8";
-    LC_NAME = "fr_FR.UTF-8";
-    LC_NUMERIC = "fr_FR.UTF-8";
-    LC_PAPER = "fr_FR.UTF-8";
-    LC_TELEPHONE = "fr_FR.UTF-8";
-    LC_TIME = "fr_FR.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -74,71 +34,22 @@
   # Configure console keymap
   console.keyMap = "fr";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  # services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    wireplumber.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.nchpg = {
+  # Define the user
+  users.users.${userSettings.username} = {
     isNormalUser = true;
-    description = "nchpg";
+    description = userSettings.username;
     extraGroups = [ "networkmanager" "wheel" "docker"];
-    packages = with pkgs; [
-      nodejs_24
-      powerline-fonts
-    ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-   
-    nwg-look
-    palenight-theme
-    catppuccin-gtk
-	  git
-    alacritty
-    pavucontrol
-    tree
-
-
-    jetbrains.webstorm
-    jetbrains.idea-ultimate
-    vscode
-    jdk24
-    rstudio
-  ];
-
+  # Enable thunar
   programs.thunar.enable = true;
 
+  # Enable automatic garbage collection
   nix.gc = {
     automatic = true; # Run the garbage collector automatically
     dates = "weekly"; # How often to run it
     options = "--delete-older-than 14d"; # What to delete
   };
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

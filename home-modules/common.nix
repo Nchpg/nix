@@ -1,4 +1,4 @@
-{ self, pkgs, userSettings, ... }:
+{ self, pkgs, lib, userSettings, ... }:
   let
     home_modules = "${self}/home-modules";
   in
@@ -13,13 +13,15 @@
   ];
 
   # Commo packages for all profiles
-  home.packages = [
-    pkgs.bat
-    pkgs.wget
-    pkgs.btop
-    pkgs.python311
+  home.packages = with pkgs; [
+    bat
+    wget
+    btop
+    python311
   ];
 
+  programs.firefox.enable = true;
+  
   programs.home-manager.enable = true;
 
   # This value determines the Home Manager release that your

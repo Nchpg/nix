@@ -2,8 +2,6 @@ input * {
     xkb_layout fr
 }
 
-
-
 input type:touchpad {
     natural_scroll enabled
 }

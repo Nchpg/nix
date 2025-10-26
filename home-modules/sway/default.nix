@@ -31,7 +31,7 @@ in
 
     # Sway bar dependencies
     pkgs.acpi # Power battery 
-    pkgs.alsa-utils # SOund
+    pkgs.alsa-utils # Sound
     pkgs.light # Brightness
     pkgs.playerctl # Audio player
 

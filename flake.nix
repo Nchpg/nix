@@ -11,6 +11,7 @@
   outputs = { self, nixpkgs, home-manager, ... }:
   let
     systemSettings = {
+      hostname = "nixos";
       profile = "personal";
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
@@ -26,7 +27,7 @@
 
   in
   {
-    nixosConfigurations.nixos = import ./profile/${systemSettings.profile} { inherit self nixpkgs home-manager systemSettings userSettings; };
+    nixosConfigurations.${systemSettings.hostname} = import ./profile/${systemSettings.profile} { inherit self nixpkgs home-manager systemSettings userSettings; };
   };
 }
 
