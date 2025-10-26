@@ -8,6 +8,7 @@
   home.homeDirectory = userSettings.homeDir;
 
   imports = [
+    "${home_modules}/vim"
     "${home_modules}/bash"
   ];
 
@@ -16,6 +17,7 @@
     pkgs.bat
     pkgs.wget
     pkgs.btop
+    pkgs.python311
   ];
 
   programs.home-manager.enable = true;

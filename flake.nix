@@ -1,4 +1,5 @@
 {
+  #  nbfc | sudo ec_probe write 0xCF 0x11
   description = "Nchpg configuration";
 
   inputs = {
@@ -14,8 +15,6 @@
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
       keyboardLayout = "fr";
-      display_manager = "sway";
-      terminal = "foot"; 
     };
 
     userSettings = rec {

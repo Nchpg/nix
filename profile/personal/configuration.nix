@@ -10,11 +10,15 @@
   imports =
     [
       ./hardware-configuration.nix
-    ] ++ (if systemSettings.display_manager == "sway" then ["${sys_modules}/sway"] else ["${sys_modules}/gnome"]);
+      "${sys_modules}/sway"
+      "${sys_modules}/gnome"
+    ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  hardware.enableAllFirmware = true;
 
   # GPU
   hardware.graphics.enable = true;
@@ -24,6 +28,10 @@
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
+  };
+
+  virtualisation.docker = {
+    enable = true;
   };
 
   # Define your hostname.
@@ -60,6 +68,7 @@
   services.xserver.xkb = {
     layout = "fr";
     variant = "azerty";
+    options = "numpad:mac";
   };
 
   # Configure console keymap
@@ -69,13 +78,14 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
+  # services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -91,7 +101,7 @@
   users.users.nchpg = {
     isNormalUser = true;
     description = "nchpg";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
       nodejs_24
       powerline-fonts
@@ -101,7 +111,6 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -109,7 +118,6 @@
     nwg-look
     palenight-theme
     catppuccin-gtk
-    vim  
 	  git
     alacritty
     pavucontrol

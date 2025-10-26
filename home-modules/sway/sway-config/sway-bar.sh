@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Fonction pour récupérer le niveau de batterie
 battery() {
@@ -17,6 +17,57 @@ battery() {
     else
         echo "❓ N/A"
     fi
+}
+
+# Fonction pour récupérer l'état du Bluetooth et les noms de tous les appareils connectés
+bluetooth() {
+    # Vérifie si bluetoothctl est disponible
+    if ! command -v bluetoothctl &>/dev/null; then
+        echo "ᛒ N/A"
+        return
+    fi
+
+    # 1. Vérifie si l'adaptateur Bluetooth est activé (Powered)
+    powered=$(bluetoothctl show | grep -E 'Powered: yes')
+
+    if [[ -z "$powered" ]]; then
+        echo "ᛒ Off"
+        return
+    fi
+
+    # 2. L'adaptateur est On. On cherche maintenant les périphériques connectés.
+    connected_devices=$(bluetoothctl devices Connected)
+    
+    # Si la variable est vide, aucun appareil n'est connecté
+    if [[ -z "$connected_devices" ]]; then
+        echo "ᛒ On"
+        return
+    fi
+
+    # 3. Traitement et formatage des noms d'appareils
+    MAX_BT_NAME_LENGTH=15
+    
+    device_list=""
+    
+    # Lit ligne par ligne la liste des appareils connectés
+    while IFS= read -r line; do
+        device_name=$(echo "$line" | awk '{ $1=""; $2=""; print $0 }' | xargs)
+        
+        # Troncation
+        if [[ ${#device_name} -gt $MAX_BT_NAME_LENGTH ]]; then
+            device_name="${device_name:0:$MAX_BT_NAME_LENGTH}..."
+        fi
+        
+        # Ajoute le nom à la liste, séparé par une virgule
+        if [[ -z "$device_list" ]]; then
+            device_list="$device_name"
+        else
+            device_list="$device_list, $device_name"
+        fi
+    done <<< "$connected_devices"
+
+    # Affiche la liste complète
+    echo "ᛒ On : $device_list"
 }
 
 # Fonction pour récupérer le nom du réseau Wi-Fi connecté
@@ -108,7 +159,7 @@ disk(){
 
 while true; do
     # Compose la barre
-    status="$(media_title) $(wifi) | $(resources) | $(brightness) | $(volume) | $(disk) | $(battery) | $(datetime)"
+    status="$(media_title) $(bluetooth) | $(wifi) | $(resources) | $(brightness) | $(volume) | $(disk) | $(battery) | $(datetime)"
 
     # Affiche dans swaybar (output standard)
     echo "$status"
