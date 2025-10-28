@@ -28,8 +28,6 @@
     jdk24
     rstudio
 
-    nodejs_24
-    powerline-fonts
     python311
 
     bat

@@ -1,15 +1,16 @@
-call plug#begin('~/.vim/plugged') 
-    Plug 'morhetz/gruvbox'
-    Plug 'sheerun/vim-polyglot'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'vim-airline/vim-airline' 
-    Plug 'wakatime/vim-wakatime' 
-    Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'tpope/vim-commentary'     
-    Plug 'preservim/nerdtree'
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-call plug#end()
+" Plugin section managed by Nix, do not edit
+" call plug#begin('~/.vim/plugged') 
+"     Plug 'morhetz/gruvbox'
+"     Plug 'sheerun/vim-polyglot'
+"     Plug 'vim-airline/vim-airline-themes'
+"     Plug 'vim-airline/vim-airline' 
+"     Plug 'wakatime/vim-wakatime' 
+"     Plug 'tpope/vim-fugitive'
+"     Plug 'airblade/vim-gitgutter'
+"     Plug 'tpope/vim-commentary'     
+"     Plug 'preservim/nerdtree'
+"     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" call plug#end()
 
 " set laststatus=2
 set ttimeout ttimeoutlen=50
