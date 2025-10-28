@@ -61,9 +61,9 @@ let
 
   allVscodeExtensions = with pkgs.vscode-extensions; [
     ms-python.python
-    ms-vscode.cpptools
     eamodio.gitlens
     arjun.swagger-viewer
+    llvm-vs-code-extensions.vscode-clangd
     bbenoist.nix
     cweijan.dbclient-jdbc
     dracula-theme.theme-dracula
@@ -75,10 +75,6 @@ let
     ms-toolsai.jupyter-keymap
     ms-vscode-remote.remote-ssh
     ms-vscode-remote.remote-ssh-edit
-    ms-vscode.cmake-tools
-    ms-vscode.cpptools
-    ms-vscode.cpptools-extension-pack
-    ms-vscode.makefile-tools
     ocamllabs.ocaml-platform
     pkief.material-icon-theme
     redhat.vscode-yaml
@@ -95,5 +91,8 @@ in
     })
   ];
 
-  home.file.".config/Code/User/settings.json".source = ./settings.json;
+  home.file = {
+    ".config/Code/User/settings.json".source = ./vscode-config/settings.json;
+    ".config/Code/User/keybindings.json".source = ./vscode-config/keybindings.json;
+  };
 }

@@ -19,7 +19,7 @@
     ];
 
     extraConfig = ''
-      ${builtins.readFile ./.vimrc}
+      ${builtins.readFile ./vim-config/.vimrc}
       execute 'set runtimepath+=' . expand('~/.vim/airline')
     '';
   };
@@ -45,8 +45,8 @@
   ];
   
   home.file = {
-    ".vim/airline/autoload/airline/themes/powerline.vim".source = ./powerline.vim;
-    ".vim/coc-settings.json".source = ./coc-settings.json;
-    ".clang-format".source = ./.clang-format;
+    ".vim/airline/autoload/airline/themes/powerline.vim".source = ./vim-config/powerline.vim;
+    ".vim/coc-settings.json".source = ./vim-config/coc-settings.json;
+    ".clang-format".source = ./vim-config/.clang-format;
   };
 }
