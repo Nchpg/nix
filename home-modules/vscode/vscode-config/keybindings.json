@@ -1,0 +1,12 @@
+[
+{
+    "key": "ctrl+s",
+    "command": "editor.action.formatDocument",
+    "when": "editorLangId == c || editorLangId == cpp"
+  },
+  {
+    "key": "ctrl+s",
+    "command": "workbench.action.files.save",
+    "when": "editorLangId == c || editorLangId == cpp"
+  }
+]
