@@ -1,25 +1,13 @@
-# ~/.config/nixpkgs/home.nix ou votre module Home Manager
-
 { config, pkgs, lib, ... }:
 
 {
   programs.kitty = {
     enable = true;
 
-    # Traduit directement la configuration en attributs Nix.
-    # Les chaînes de caractères ne nécessitent pas de guillemets 
-    # si elles sont composées uniquement de caractères alphanumériques/spéciaux simples.
-    # Les valeurs hexadécimales de couleur doivent être des chaînes de caractères.
     settings = {
-      # Usability
       confirm_os_window_close = 0;
       window_padding_width = 4;
       term = "xterm-256color";
-
-      # Keymap - Ces options sont mieux gérées par 'extraConfig' ou 'keybindings'
-      # car elles utilisent la syntaxe 'map' qui n'est pas un simple attribut.
-      # Cependant, Home Manager peut convertir certaines d'entre elles.
-      # Pour être sûr, nous allons les mettre dans extraConfig.
 
       # Tabs
       tab_bar_min_tabs = 2;
@@ -32,9 +20,9 @@
       font_family = "JetBrainsMono Nerd Font";
       font_size = 16.0;
 
-      ## Animate cursor (La traînée de curseur est bien là !)
+      ## Animate cursor
       cursor_trail = 3;
-      cursor_trail_decay = "0.1 0.4"; # Notez que c'est une chaîne en Home Manager
+      cursor_trail_decay = "0.1 0.4";
       cursor_shape = "block";
 
       ## The basic colors
@@ -94,7 +82,6 @@
 
     };
 
-    # Ajout des raccourcis clavier dans extraConfig car 'map' n'est pas un simple paramètre 'setting'
     extraConfig = ''
       bell none
       enable_audio_bell no

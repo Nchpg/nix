@@ -13,6 +13,7 @@
     systemSettings = {
       hostname = "nixos";
       profile = "personal";
+      host = "lg-gram";
       system = "x86_64-linux"; 
       timeZone = "Europe/Paris";
       keyboardLayout = "fr";

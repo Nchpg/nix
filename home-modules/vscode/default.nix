@@ -2,17 +2,12 @@
 
 let
   marketplaceExtensions = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    # outils
     {
       name = "shift-shift";
       publisher = "ahgood";
       version = "0.0.5";
       sha256 = "sha256-r6qzsQTQrTbZiloFdyH5XtT2P2Mf3uOV70iCNuJa6HQ=";
-    }
-    {
-      name = "vscode-postgresql-client2";
-      publisher = "cweijan";
-      version = "8.4.2";
-      sha256 = "sha256-fZa5PpIfYo8FIrEqVIW4uQPRv8tCf9WMLp5jZb1uhno=";
     }
     {
       name = "vscode-containers";
@@ -21,29 +16,45 @@ let
       sha256 = "sha256-UxWsu7AU28plnT0QMdpPJrcYZIV09FeC+rmYKf39a6M=";
     }
     {
+      name = "remote-explorer";
+      publisher = "ms-vscode";
+      version = "0.5.0";
+      sha256 = "sha256-BNsnetpddxv3Y9MjZERU5jOq1I2g6BNFF1rD7Agpmr8=";
+    }
+
+    # databases
+    {
+      name = "vscode-postgresql-client2";
+      publisher = "cweijan";
+      version = "8.4.2";
+      sha256 = "sha256-fZa5PpIfYo8FIrEqVIW4uQPRv8tCf9WMLp5jZb1uhno=";
+    }
+
+    # python
+    {
       name = "vscode-python-envs";
       publisher = "ms-python";
       version = "1.10.0";
       sha256 = "sha256-fhrV9sPjgwp1+ZDMu7iU7To2R0hcAF388w99yCMiHQA=";
     }
+
+    # c/cpp
     {
       name = "cpptools-themes";
       publisher = "ms-vscode";
       version = "2.0.0";
       sha256 = "sha256-YWA5UsA+cgvI66uB9d9smwghmsqf3vZPFNpSCK+DJxc=";
     }
-    {
-      name = "remote-explorer";
-      publisher = "ms-vscode";
-      version = "0.5.0";
-      sha256 = "sha256-BNsnetpddxv3Y9MjZERU5jOq1I2g6BNFF1rD7Agpmr8=";
-    }
+
+    # nginx
     {
       name = "vscode-nginx";
       publisher = "william-voyek";
       version = "0.7.2";
       sha256 = "sha256-mAmncewwAeagVqwWWrmYosMyw2AT3W0sx8jl2mCeimg=";
     }
+
+    # github copilot
     {
       name = "copilot-chat";
       publisher = "github";
@@ -60,27 +71,45 @@ let
 
 
   allVscodeExtensions = with pkgs.vscode-extensions; [
+    # python
     ms-python.python
-    eamodio.gitlens
-    arjun.swagger-viewer
-    llvm-vs-code-extensions.vscode-clangd
-    bbenoist.nix
-    cweijan.dbclient-jdbc
-    dracula-theme.theme-dracula
-    golang.go
-    ms-azuretools.vscode-docker
     ms-python.debugpy
     ms-python.python
     ms-python.vscode-pylance
     ms-toolsai.jupyter-keymap
-    ms-vscode-remote.remote-ssh
-    ms-vscode-remote.remote-ssh-edit
-    ocamllabs.ocaml-platform
-    pkief.material-icon-theme
+
+    # c/cpp
+    llvm-vs-code-extensions.vscode-clangd
+
+    # go
+    golang.go
+
+    # nix
+    bbenoist.nix
+
+    # vim
+    vscodevim.vim
+
+    # git
+    eamodio.gitlens
+
+    # outils
+    arjun.swagger-viewer
     redhat.vscode-yaml
     ritwickdey.liveserver
     usernamehw.errorlens
-    vscodevim.vim
+    ms-azuretools.vscode-docker
+    ms-vscode-remote.remote-ssh
+    ms-vscode-remote.remote-ssh-edit
+
+    # themes & icons
+    dracula-theme.theme-dracula
+    pkief.material-icon-theme
+
+    # databases
+    cweijan.dbclient-jdbc
+
+
   ] ++ marketplaceExtensions;
 
 in

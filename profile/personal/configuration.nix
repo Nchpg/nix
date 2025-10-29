@@ -9,7 +9,7 @@
 {
   imports =
     [
-      ./hardware-configuration.nix
+      "${self}/host/${systemSettings.host}/hardware-configuration.nix"
       "${sys_modules}/common.nix"
       "${sys_modules}/sway"
       "${sys_modules}/gnome"
