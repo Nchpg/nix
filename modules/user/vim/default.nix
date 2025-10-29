@@ -1,52 +1,62 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
-{
-  programs.vim = {
-    enable = true;
-
-    # Plugins gérés par Nix
-    plugins = with pkgs.vimPlugins; [
-      gruvbox
-      vim-polyglot
-      vim-airline
-      vim-airline-themes
-      vim-wakatime
-      vim-fugitive
-      vim-gitgutter
-      vim-commentary
-      nerdtree
-      coc-nvim
-    ];
-
-    extraConfig = ''
-      ${builtins.readFile ./vim-config/.vimrc}
-      execute 'set runtimepath+=' . expand('~/.vim/airline')
-    '';
+let
+  cfg = config.userSettings.vim;
+in {
+  options = {
+    userSettings.vim = {
+      enable = lib.mkEnableOption "Enable vim";
+    };
   };
+  config = lib.mkIf cfg.enable {
 
-  home.packages = with pkgs; [
-    # for coc-nvim
-    nodejs
+    programs.vim = {
+      enable = true;
 
-    # font for vim-airline
-    powerline-fonts
+      # Plugins gérés par Nix
+      plugins = with pkgs.vimPlugins; [
+        gruvbox
+        vim-polyglot
+        vim-airline
+        vim-airline-themes
+        vim-wakatime
+        vim-fugitive
+        vim-gitgutter
+        vim-commentary
+        nerdtree
+        coc-nvim
+      ];
 
-    ### language servers
+      extraConfig = ''
+        ${builtins.readFile ./vim-config/.vimrc}
+        execute 'set runtimepath+=' . expand('~/.vim/airline')
+      '';
+    };
 
-    # c
-    clang-tools
+    home.packages = with pkgs; [
+      # for coc-nvim
+      nodejs
 
-    #python
-    pyright
+      # font for vim-airline
+      powerline-fonts
 
-    # nix
-    nil
-    nixpkgs-fmt
-  ];
-  
-  home.file = {
-    ".vim/airline/autoload/airline/themes/powerline.vim".source = ./vim-config/powerline.vim;
-    ".vim/coc-settings.json".source = ./vim-config/coc-settings.json;
-    ".clang-format".source = ./vim-config/.clang-format;
+      ### language servers
+
+      # c
+      clang-tools
+
+      #python
+      pyright
+
+      # nix
+      nil
+      nixpkgs-fmt
+    ];
+    
+    home.file = {
+      ".vim/airline/autoload/airline/themes/powerline.vim".source = ./vim-config/powerline.vim;
+      ".vim/coc-settings.json".source = ./vim-config/coc-settings.json;
+      ".clang-format".source = ./vim-config/.clang-format;
+    };
   };
 }

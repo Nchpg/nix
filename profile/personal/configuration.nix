@@ -7,8 +7,13 @@
 {
   config = {
     systemSettings = {
-      # users
       users = [ "nchpg" ];
+
+      window-manager = {
+        sway.enable = true;
+        gnome.enable = true;
+        #default = "sway";
+      };
     };
   };
 

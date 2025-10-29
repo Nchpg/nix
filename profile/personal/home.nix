@@ -4,12 +4,18 @@
   config = {
 
     userSettings = {
-      # setup
-      shell.enable = true;
       vim.enable = true;
-      zsh.enable = true;
+      shell = {
+        zsh.enable = true;
+        bash.enable = true;
+        #default = "zsh";
+      };
+      terminal = {
+        kitty.enable = true;
+        foot.enable = true;
+        #default = "kitty";
+      };
     };
-
   };
 }
 

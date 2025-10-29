@@ -4,37 +4,17 @@
 
 { config, lib, pkgs-stable, ... }:
 {
-  options = {
-    systemSettings = {
-      users = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [];
-        description = "List of system users to create.";
-      };
-
-      user = lib.mkOption {
-        type = lib.types.str;
-        readOnly = true;
-        description = "The primary system user (first in the 'users' list).";
-      };
-
-    };
-  };
-
   imports =
     [
       #"${self}/host/${systemSettings.host}/hardware-configuration.nix"
       ./common.nix
       ./sway
       ./gnome
+      ./users
     ];
 
 
-    config = {
-    nixpkgs.config.allowUnfree = true;
-systemSettings.user = lib.mkIf (config.systemSettings.users != []) (
-    lib.mkDefault (builtins.head config.systemSettings.users)
-  );
+  nixpkgs.config.allowUnfree = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -54,13 +34,6 @@ systemSettings.user = lib.mkIf (config.systemSettings.users != []) (
   # Configure console keymap
   console.keyMap = "fr";
 
-  # Define the user
-  users.users.${config.systemSettings.user} = {
-    isNormalUser = true;
-    description = config.systemSettings.user;
-    extraGroups = [ "networkmanager" "wheel" "docker"];
-  };
-
   # Enable thunar
   programs.thunar.enable = true;
 
@@ -78,6 +51,5 @@ systemSettings.user = lib.mkIf (config.systemSettings.users != []) (
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-    };
 
 }

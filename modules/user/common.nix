@@ -1,22 +1,5 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, ... }:
 {
-  options = {
-    userSettings = {
-      shell = {
-        enable = lib.mkEnableOption "Enable user's shell configuration (bash/zsh)";
-      };
-      vim = {
-        enable = lib.mkEnableOption "Enable user's Vim configuration";
-      };
-    };
-  };
-
-
-  imports = [
-    ./vim
-    ./bash
-  ];
-  config = {
   home.username = "nchpg";
   home.homeDirectory = "/home/nchpg";
 
@@ -40,6 +23,5 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "25.05";
-  };
 }
 
