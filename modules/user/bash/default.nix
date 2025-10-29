@@ -1,4 +1,4 @@
-{ config, pkgs, lib, systemSettings, ... }:
+{ config, pkgs, lib, ... }:
 {
   programs.bash = {
     enable = true;
@@ -7,11 +7,11 @@
 
 
   # Configure shell for terminal emulators
-  programs.kitty = lib.mkIf (systemSettings.terminal == "kitty" && systemSettings.shell == "bash") {
+  /*programs.kitty = lib.mkIf (systemSettings.terminal == "kitty" && systemSettings.shell == "bash") {
     settings.shell = "${pkgs.bash}/bin/bash";
   };
 
   programs.foot = lib.mkIf (systemSettings.terminal == "foot" && systemSettings.shell == "bash") {
     settings.main.shell = "${pkgs.bash}/bin/bash";
-  };
+  };*/
 }

@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs-stable, lib, ... }:
 {
   programs.sway = {
     enable = true;

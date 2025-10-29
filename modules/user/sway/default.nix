@@ -1,11 +1,11 @@
-{ pkgs, lib, userSettings, systemSettings, ... }:
+{ pkgs, lib, ... }:
 
 
 let
   # Edit config template terminal
-  terminalPkg = lib.getAttr systemSettings.terminal pkgs;
+  #terminalPkg = lib.getAttr systemSettings.terminal pkgs;
   templateContent = builtins.readFile ./sway-config/config.template;
-  finalConfigContent = lib.replaceStrings ["@terminal@"] [systemSettings.terminal] templateContent;
+  finalConfigContent = lib.replaceStrings ["@terminal@"] ["kitty"] templateContent;
 in
 {
   home.file.".config/sway/config" = {
@@ -26,7 +26,8 @@ in
 
   
   home.packages = [
-    terminalPkg
+    #terminalPkg
+    pkgs.kitty
     pkgs.dmenu # mod + d menu
 
     # Sway bar dependencies

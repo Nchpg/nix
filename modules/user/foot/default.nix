@@ -1,4 +1,4 @@
-{ pkgs, lib, systemSettings, ... }:
+{ pkgs, lib, ... }:
 
 {
   programs.foot = {

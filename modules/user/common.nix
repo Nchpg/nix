@@ -1,11 +1,11 @@
-{ self, pkgs, lib, userSettings, ... }:
+{ self, pkgs, lib, config, ... }:
   let
-    home_modules = "${self}/home-modules";
+    home_modules = "${self}/modules/user";
   in
 {
 
-  home.username = userSettings.username;
-  home.homeDirectory = userSettings.homeDir;
+  home.username = config.systemSettings.user;
+  home.homeDirectory = "/home/${config.systemSettings.user}";
 
   imports = [
     "${home_modules}/vim"

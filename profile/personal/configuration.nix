@@ -2,14 +2,22 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ self, config, pkgs, systemSettings, userSettings, ... }:
+{ self, config, pkgs-stable, ... }:
   let
-    sys_modules = "${self}/sys-modules";
+    sys_modules = "${self}/modules/system";
   in
 {
+  config = {
+    systemSettings = {
+      # users
+      users = [ "nchpg" ];
+    };
+  };
+
+
   imports =
     [
-      "${self}/host/${systemSettings.host}/hardware-configuration.nix"
+      #"${self}/host/${systemSettings.host}/hardware-configuration.nix"
       "${sys_modules}/common.nix"
       "${sys_modules}/sway"
       "${sys_modules}/gnome"
@@ -35,9 +43,9 @@
   console.keyMap = "fr";
 
   # Define the user
-  users.users.${userSettings.username} = {
+  users.users.${config.systemSettings.user} = {
     isNormalUser = true;
-    description = userSettings.username;
+    description = config.systemSettings.user;
     extraGroups = [ "networkmanager" "wheel" "docker"];
   };
 

@@ -1,13 +1,13 @@
-{ pkgs, lib, userSettings, systemSettings, ... }:
+{ pkgs-stable, lib, ... }:
 {
   # Active Flake
   nix = {
-    package = pkgs.nix;
+    package = pkgs-stable.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
   # Define your hostname.
-  networking.hostName = systemSettings.hostname; 
+  networking.hostName = "nixos"; 
 
   # Use all available firmware (needed for sound)
   hardware.enableAllFirmware = true;
