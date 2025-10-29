@@ -1,16 +1,25 @@
-{ self, pkgs, lib, config, ... }:
-  let
-    home_modules = "${self}/modules/user";
-  in
+{ pkgs, lib, config, ... }:
 {
+  options = {
+    userSettings = {
+      shell = {
+        enable = lib.mkEnableOption "Enable user's shell configuration (bash/zsh)";
+      };
+      vim = {
+        enable = lib.mkEnableOption "Enable user's Vim configuration";
+      };
+    };
+  };
 
-  home.username = config.systemSettings.user;
-  home.homeDirectory = "/home/${config.systemSettings.user}";
 
   imports = [
-    "${home_modules}/vim"
-    "${home_modules}/bash"
+    ./vim
+    ./bash
   ];
+  config = {
+  home.username = "nchpg";
+  home.homeDirectory = "/home/nchpg";
+
 
   # Common packages for all profiles
   home.packages = with pkgs; [
@@ -31,5 +40,6 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "25.05";
+  };
 }
 
