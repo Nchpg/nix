@@ -1,13 +1,24 @@
-{ pkgs, lib, userSettings, systemSettings, ... }:
+{ lib, pkgs-stable, ... }:
+
 {
+  nixpkgs.config.allowUnfree = true;
+
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # GPU
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "modesetting" ];
+
   # Active Flake
   nix = {
-    package = pkgs.nix;
+    package = pkgs-stable.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
   # Define your hostname.
-  networking.hostName = systemSettings.hostname; 
+  networking.hostName = "nixos"; 
 
   # Use all available firmware (needed for sound)
   hardware.enableAllFirmware = true;
@@ -60,4 +71,31 @@
     enable = true;
   };
 
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "fr";
+    variant = "azerty";
+    options = "numpad:mac";
+  };
+
+  # Configure console keymap
+  console.keyMap = "fr";
+
+  # Enable thunar
+  programs.thunar.enable = true;
+
+  # Enable automatic garbage collection
+  nix.gc = {
+    automatic = true; # Run the garbage collector automatically
+    dates = "weekly"; # How often to run it
+    options = "--delete-older-than 14d"; # What to delete
+  };
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "25.05"; # Did you read the comment?
 }

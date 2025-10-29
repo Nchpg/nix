@@ -3,32 +3,66 @@
   description = "Nchpg configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
-  let
-    systemSettings = {
-      hostname = "nixos";
-      profile = "personal";
-      host = "lg-gram";
-      system = "x86_64-linux"; 
-      timeZone = "Europe/Paris";
-      keyboardLayout = "fr";
-    };
+  outputs = inputs@{ self, ... }:
+    let
+      system = "x86_64-linux";
 
-    userSettings = rec {
-      username = "nchpg";
-      name = "nathan";
-      email = "nathanchampagne49@gmail.com";
-      homeDir = "/home/${username}";
-    };
+      pkgs-stable = import inputs.nixpkgs-stable {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = (_: true);
+        };
+      };
 
-  in
-  {
-    nixosConfigurations.${systemSettings.hostname} = import ./profile/${systemSettings.profile} { inherit self nixpkgs home-manager systemSettings userSettings; };
-  };
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = (_: true);
+        };
+      };
+
+      lib = inputs.nixpkgs-stable.lib;
+      hosts = builtins.filter (x: x != null) (lib.mapAttrsToList (name: value: if (value == "directory") then name else null) (builtins.readDir ./profile));
+
+    in
+    {
+      nixosConfigurations = builtins.listToAttrs
+        (map (host: {
+          name = host;
+          value = lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              (./profile/${host})
+
+              # my modules
+              ./modules/system
+
+              # home manager
+              inputs.home-manager.nixosModules.home-manager
+              {
+                home-manager.extraSpecialArgs = {
+                  inherit pkgs;
+                  inherit pkgs-stable;
+                  inherit inputs;
+                };
+              }
+
+            ];
+            specialArgs = {
+              inherit pkgs-stable;
+              inherit inputs;
+            };
+          };
+        }) hosts);
+    };
 }
 

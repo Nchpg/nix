@@ -1,3 +1,27 @@
+{ config, lib, pkgs, ... }:
+
+let
+  cfg = config.userSettings.shell.zsh;
+in {
+  options = {
+    userSettings.shell.zsh = {
+      enable = lib.mkEnableOption "Enable zsh";
+    };
+  };
+  config = lib.mkIf cfg.enable {
+    programs.zsh = {
+      enable = true;
+      enableCompletion = true;
+      history = {
+        ignoreDups = true;
+        extended = true;
+      };
+      initContent = builtins.readFile ./.zshrc;
+    };
+  };
+}
+
+/*
 { config, pkgs, lib, systemSettings, ... }:
 
 {
@@ -20,4 +44,4 @@
   programs.foot = lib.mkIf (systemSettings.terminal == "foot" && systemSettings.shell == "zsh") {
     settings.main.shell = "${pkgs.zsh}/bin/zsh";
   };
-}
+}*/

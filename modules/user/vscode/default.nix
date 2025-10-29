@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, pkgs-stable, lib, ... }:
 
 let
   marketplaceExtensions = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
@@ -115,7 +115,7 @@ let
 in
 {
   home.packages = [
-    (pkgs.vscode-with-extensions.override {
+    (pkgs-stable.vscode-with-extensions.override {
       vscodeExtensions = allVscodeExtensions;
     })
   ];
