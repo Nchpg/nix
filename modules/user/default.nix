@@ -1,12 +1,22 @@
 { lib, ... }:
+
+with lib;
+let
+  getDir = dir: mapAttrs
+    (file: type:
+      if type == "directory" then getDir "${dir}/${file}" else type
+    )
+    (builtins.readDir dir);
+
+  files = dir: collect isString (mapAttrsRecursive (path: type: concatStringsSep "/" path) (getDir dir));
+
+  importAll = dir: map
+    (file: ./. + "/${file}")
+    (filter
+      (file: hasSuffix ".nix" file && file != "default.nix")
+      (files dir));
+
+in
 {
-    imports = [ 
-        ./vscode/default.nix 
-        ./sway/default.nix 
-        ./common.nix 
-        ./zsh/default.nix 
-        ./foot/default.nix 
-        ./kitty/default.nix 
-        ./bash/default.nix
-        ./vim/default.nix];
+  imports = importAll ./.;
 }

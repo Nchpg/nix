@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs-stable, ... }:
 
 {
   options = {
@@ -10,6 +10,7 @@
     };
   };
   
+
   config = {
     users.users = builtins.listToAttrs
       (map (user: {
@@ -19,6 +20,15 @@
           extraGroups = [ "networkmanager" "wheel" "docker"];
           createHome = true;
           description = user;
+        };
+      }) config.systemSettings.users);
+    
+    home-manager.users = builtins.listToAttrs
+      (map (user: {
+        name = user;
+        value = {
+          home.username = user;
+          home.homeDirectory = "/home/"+user;
         };
       }) config.systemSettings.users);
   };
