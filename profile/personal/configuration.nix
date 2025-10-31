@@ -10,7 +10,7 @@
       users = [ "nchpg" ];
 
       window-manager = {
-        sway.enable = true;
+        sway.enable = false;
         gnome.enable = true;
         #default = "sway";
       };

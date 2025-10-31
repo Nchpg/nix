@@ -1,4 +1,4 @@
-{ lib, pkgs-stable, ... }:
+{ lib, pkgs-stable, pkgs, ... }:
 {
   # Common packages for all profiles
   home.packages = with pkgs-stable; [
@@ -7,6 +7,7 @@
   ];
 
   # TODO: voir differnce stable et non stable
+  programs.firefox.enable = true;
   programs.firefox.package = pkgs-stable.firefox;
   
   # link home-manager with system users
