@@ -1,7 +1,8 @@
-{ pkgs, pkgs-stable, lib, ... }:
+{ config, lib, pkgs-stable, pkgs-unstable, ... }:
 
 let
-  marketplaceExtensions = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+  cfg = config.userSettings.vscode;
+  marketplaceExtensions = cfg.pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     # outils
     {
       name = "shift-shift";
@@ -70,7 +71,7 @@ let
   ];
 
 
-  allVscodeExtensions = with pkgs.vscode-extensions; [
+  allVscodeExtensions = with cfg.pkgs.vscode-extensions; [
     # python
     ms-python.python
     ms-python.debugpy
@@ -112,16 +113,27 @@ let
 
   ] ++ marketplaceExtensions;
 
-in
-{
-  home.packages = [
-    (pkgs-stable.vscode-with-extensions.override {
-      vscodeExtensions = allVscodeExtensions;
-    })
-  ];
+in {
+  options = {
+    userSettings.vscode = {
+      enable = lib.mkEnableOption "Enable vscode";
+      pkgs = lib.mkOption {
+        type = lib.types.attrs;
+        default = pkgs-stable;
+        description = "Pkgs to use";
+      };
+    };
+  };
+  config = lib.mkIf cfg.enable {
+    home.packages = [
+      (cfg.pkgs.vscode-with-extensions.override {
+        vscodeExtensions = allVscodeExtensions;
+      })
+    ];
 
-  home.file = {
-    ".config/Code/User/settings.json".source = ./vscode-config/settings.json;
-    ".config/Code/User/keybindings.json".source = ./vscode-config/keybindings.json;
+    home.file = {
+      ".config/Code/User/settings.json".source = ./vscode-config/settings.json;
+      ".config/Code/User/keybindings.json".source = ./vscode-config/keybindings.json;
+    };
   };
 }

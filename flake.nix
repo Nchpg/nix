@@ -4,16 +4,16 @@
 
   inputs = {
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager/release-25.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
   };
 
   outputs = inputs@{ self, ... }:
     let
       system = "x86_64-linux";
-
+      
       pkgs-stable = import inputs.nixpkgs-stable {
         inherit system;
         config = {
@@ -22,7 +22,7 @@
         };
       };
 
-      pkgs = import inputs.nixpkgs {
+      pkgs-unstable = import inputs.nixpkgs-unstable {
         inherit system;
         config = {
           allowUnfree = true;
@@ -48,18 +48,20 @@
 
               # home manager
               inputs.home-manager.nixosModules.home-manager
-              {
+              ({ config, ... }: {
                 home-manager.extraSpecialArgs = {
-                  inherit pkgs;
+                  inherit pkgs-unstable;
                   inherit pkgs-stable;
                   inherit inputs;
+                  systemSettings = config.systemSettings; 
                 };
-              }
+              })
 
             ];
             specialArgs = {
               inherit pkgs-stable;
               inherit inputs;
+              homeName = host;
             };
           };
         }) hosts);

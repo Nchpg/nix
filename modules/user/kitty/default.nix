@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs-stable, pkgs-unstable, ... }:
 
 let
   cfg = config.userSettings.terminal.kitty;
@@ -6,12 +6,18 @@ in {
   options = {
     userSettings.terminal.kitty = {
       enable = lib.mkEnableOption "Enable kitty terminal";
+      pkgs = lib.mkOption {
+        type = lib.types.attrs;
+        default = pkgs-stable;
+        description = "Pkgs to use";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
 
     programs.kitty = {
       enable = true;
+      package = cfg.pkgs.kitty;
 
       settings = {
         confirm_os_window_close = 0;
