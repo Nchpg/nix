@@ -1,4 +1,4 @@
-{ lib, pkgs-stable, ... }:
+{ lib, pkgs-stable, homeName, ... }:
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -18,7 +18,7 @@
   };
 
   # Define your hostname.
-  networking.hostName = "nixos"; 
+  networking.hostName = homeName; 
 
   # Use all available firmware (needed for sound)
   hardware.enableAllFirmware = true;

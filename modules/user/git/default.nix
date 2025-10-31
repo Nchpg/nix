@@ -1,11 +1,11 @@
 { config, lib, pkgs-stable, pkgs-unstable, ... }:
 
 let
-  cfg = config.userSettings.terminal.foot;
+  cfg = config.userSettings.git;
 in {
   options = {
-    userSettings.terminal.foot = {
-      enable = lib.mkEnableOption "Enable foot terminal";
+    userSettings.git = {
+      enable = lib.mkEnableOption "Enable git";
       pkgs = lib.mkOption {
         type = lib.types.attrs;
         default = pkgs-stable;
@@ -14,15 +14,9 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    programs.foot = {
+    programs.git = {
       enable = true;
-      package = cfg.pkgs.foot;
-
-      settings = {
-        main = {
-          font = "monospace:size=16";
-        };
-      };
+      package = cfg.pkgs.git;
     };
   };
 }

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs-stable, pkg-unstable, ... }:
 
 let
   cfg = config.userSettings.vim;
@@ -6,6 +6,11 @@ in {
   options = {
     userSettings.vim = {
       enable = lib.mkEnableOption "Enable vim";
+      pkgs = lib.mkOption {
+        type = lib.types.attrs;
+        default = pkgs-stable;
+        description = "Pkgs to use";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -14,7 +19,7 @@ in {
       enable = true;
 
       # Plugins gérés par Nix
-      plugins = with pkgs.vimPlugins; [
+      plugins = with cfg.pkgs.vimPlugins; [
         gruvbox
         vim-polyglot
         vim-airline
@@ -33,7 +38,7 @@ in {
       '';
     };
 
-    home.packages = with pkgs; [
+    home.packages = with cfg.pkgs; [
       # for coc-nvim
       nodejs
 
@@ -52,7 +57,7 @@ in {
       nil
       nixpkgs-fmt
     ];
-    
+
     home.file = {
       ".vim/airline/autoload/airline/themes/powerline.vim".source = ./vim-config/powerline.vim;
       ".vim/coc-settings.json".source = ./vim-config/coc-settings.json;

@@ -1,17 +1,18 @@
-{ lib, pkgs-stable, pkgs, ... }:
+{ lib, pkgs-stable, pkgs-unstable, ... }:
 {
-  # Common packages for all profiles
-  home.packages = with pkgs-stable; [
-    tree
-    git
-  ];
+  home.packages =
+    (with pkgs-stable; [
+      tree
+      curl
+      wget
+      ncdu
+      discord
+      btop
+      bat
+    ])
+    ++
+    (with pkgs-unstable; [
 
-  # TODO: voir differnce stable et non stable
-  programs.firefox.enable = true;
-  programs.firefox.package = pkgs-stable.firefox;
-  
-  # link home-manager with system users
-  programs.home-manager.enable = true;
-
+    ]);
 }
 
