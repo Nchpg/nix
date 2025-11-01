@@ -7,45 +7,46 @@
     nixpkgs.config.allowUnfree = true;
 
     userSettings = lib.mkForce {
+      defaultPkgs = pkgs-stable;
+
       vim = {
         enable = true;
-        pkgs = pkgs-unstable;
       };
+
       git = {
         enable = true;
-        pkgs = pkgs-unstable;
       };
+
       firefox = {
         enable = true;
-        pkgs = pkgs-unstable;
       };
+
       vscode = {
         enable = true;
         pkgs = pkgs-unstable;
       };
+
+
       shell = {
         zsh = {
           enable = true;
-          pkgs = pkgs-unstable;
         };
         bash = {
           enable = true;
-          pkgs = pkgs-unstable;
         };
         default = "zsh";
       };
+
+
       terminal = {
         kitty = {
           enable = true;
-          pkgs = pkgs-unstable;
         };
         foot = {
           enable = false;
-          pkgs = pkgs-unstable;
         };
         alacritty = {
           enable = true;
-          pkgs = pkgs-unstable;
           shell = "bash";
         };
         default = "kitty";

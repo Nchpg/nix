@@ -8,7 +8,6 @@
       window-manager = {
         sway.enable = true;
         gnome.enable = true;
-        #default = "sway";
       };
     };
   };
