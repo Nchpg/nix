@@ -1,6 +1,8 @@
-{ pkgs-stable, pkgs-unstable, ... }:
+{ config, lib, pkgs-stable, pkgs-unstable, ... }:
 
 {
+  imports = (lib.optional (builtins.pathExists ./private.nix) ./private.nix);
+
   config = {
     nixpkgs.config.allowUnfree = true;
 

@@ -43,7 +43,7 @@
             modules = [
               (./profile/${host})
 
-              # my modules
+              # system modules
               ./modules/system
 
               # home manager
