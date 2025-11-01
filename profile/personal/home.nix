@@ -43,6 +43,11 @@
           enable = false;
           pkgs = pkgs-unstable;
         };
+        alacritty = {
+          enable = true;
+          pkgs = pkgs-unstable;
+          shell = "bash";
+        };
         default = "kitty";
       };
     };
