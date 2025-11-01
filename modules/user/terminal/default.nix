@@ -8,13 +8,13 @@ in {
   options = {
     userSettings.terminal = {
       default = lib.mkOption {
-          type = lib.types.enum terminals;
-          description = "Terminal by default";
+        type = lib.types.enum terminals;
+        description = "Terminal by default";
       };
       list = lib.mkOption {
-          type = lib.types.listOf lib.types.str;
-          readOnly = true;
-          description = "List of available terminals";
+        type = lib.types.listOf lib.types.str;
+        readOnly = true;
+        description = "List of available terminals";
       };
     };
   };
