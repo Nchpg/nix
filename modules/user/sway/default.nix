@@ -5,7 +5,7 @@ let
 
   # Edit config template terminal
   templateContent = builtins.readFile ./sway-config/config.template;
-  finalConfigContent = lib.replaceStrings ["@terminal@"] ["kitty"] templateContent;
+  finalConfigContent = lib.replaceStrings ["@terminal@"] [config.userSettings.terminal.default] templateContent;
 in {
   config = lib.mkIf cfg.enable {
     home.file.".config/sway/config" = {
