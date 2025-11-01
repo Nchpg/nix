@@ -11,6 +11,10 @@ in {
         default = pkgs-stable;
         description = "Pkgs to use";
       };
+      shell = lib.mkOption {
+        type = lib.types.str;
+        description = "Shell to use";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -20,6 +24,7 @@ in {
 
       settings = {
         main = {
+          shell = "${cfg.pkgs."${cfg.shell}"}/bin/${cfg.shell}";
           font = "monospace:size=16";
         };
       };

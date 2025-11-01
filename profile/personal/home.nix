@@ -6,7 +6,7 @@
   config = {
     nixpkgs.config.allowUnfree = true;
 
-    userSettings = {
+    userSettings = lib.mkForce {
       vim = {
         enable = true;
         pkgs = pkgs-unstable;
@@ -32,7 +32,7 @@
           enable = true;
           pkgs = pkgs-unstable;
         };
-        #default = "zsh";
+        default = "zsh";
       };
       terminal = {
         kitty = {

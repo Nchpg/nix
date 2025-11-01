@@ -11,6 +11,10 @@ in {
         default = pkgs-stable;
         description = "Pkgs to use";
       };
+      shell = lib.mkOption {
+        type = lib.types.str;
+        description = "Shell to use";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -20,6 +24,7 @@ in {
       package = cfg.pkgs.kitty;
 
       settings = {
+        shell = "${cfg.pkgs."${cfg.shell}"}/bin/${cfg.shell}";
         confirm_os_window_close = 0;
         window_padding_width = 4;
         term = "xterm-256color";
