@@ -8,7 +8,7 @@
 
   config = {
     home-manager.users = builtins.listToAttrs
-      (map (user: { name = user; value =
-                      { imports = [ ./home.nix ../../modules/user ]; };}) config.systemSettings.users);
+      (map (user: { name = user.name; value =
+                      { imports = [ ./home/${user.name} ../../modules/user ]; };}) config.systemSettings.users);
     };
 }
