@@ -8,7 +8,7 @@ in {
       enable = lib.mkEnableOption "Enable vim";
       pkgs = lib.mkOption {
         type = lib.types.attrs;
-        default = pkgs-stable;
+        default = config.userSettings.defaultPkgs;
         description = "Pkgs to use";
       };
     };
