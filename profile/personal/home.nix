@@ -40,10 +40,10 @@
           pkgs = pkgs-unstable;
         };
         foot = {
-          enable = true;
+          enable = false;
           pkgs = pkgs-unstable;
         };
-        #default = "kitty";
+        default = "kitty";
       };
     };
   };

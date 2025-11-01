@@ -13,6 +13,7 @@ in {
       };
       shell = lib.mkOption {
         type = lib.types.str;
+        default = config.userSettings.shell.default;
         description = "Shell to use";
       };
     };
