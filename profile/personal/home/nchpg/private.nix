@@ -2,8 +2,9 @@
 # Fill in your personal information below.
 
 # I recommend removing this file from version control with :
-# git update-index --assume-unchanged **/*/private.nix
+# ./private-switch.sh lock
 # So your personal information does not end up on github.
+# (there are other option usefule option in this script)
 {
   config = {
     userSettings = {

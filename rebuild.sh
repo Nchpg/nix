@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+set -e
+
+./private-switch.sh rebuild
+./private-switch.sh unlock
+
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -52,4 +57,5 @@ else
     echo "❌ System rebuild failed. Please check the errors above."
 fi
 
+./private-switch.sh lock
 echo "All done."
