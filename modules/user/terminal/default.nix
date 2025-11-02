@@ -9,6 +9,7 @@ in {
     userSettings.terminal = {
       default = lib.mkOption {
         type = lib.types.enum terminals;
+        default = builtins.head terminals;
         description = "Terminal by default";
       };
       list = lib.mkOption {
@@ -31,7 +32,7 @@ in {
     ));
 
     # ERROR HANDLING
-    assertions = [
+    assertions = lib.mkIf (cfg.user != "root") ([
       { 
         assertion = lib.any 
         (terminalName: cfg.terminal.${terminalName}.enable) 
@@ -55,6 +56,6 @@ in {
               }
           )
           terminals 
-        );
+        ));
   };
 }

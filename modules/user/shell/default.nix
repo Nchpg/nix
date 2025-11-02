@@ -9,6 +9,7 @@ in {
     userSettings.shell = {
       default = lib.mkOption {
           type = lib.types.enum shells;
+          default = builtins.head shells;
           description = "Shell by default";
       };
       list = lib.mkOption {

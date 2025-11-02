@@ -10,6 +10,10 @@ in {
         default = pkgs-stable;
         description = "Default pkgs to use";
       };
+      user = lib.mkOption {
+        type = lib.types.str;
+        description = "Name of the user";
+      };
     };
   };
 

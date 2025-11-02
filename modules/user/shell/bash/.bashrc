@@ -1,7 +1,17 @@
 alias cls="clear"
+alias su='sudo su -s "$0"'
+
+# parse_git_branch() {
+#      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+# }
 
 parse_git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  local head_file="$PWD/.git/HEAD"
+  if [[ -r "$head_file" ]]; then
+    local branch
+    branch=$(sed -n 's|ref: refs/heads/||p' "$head_file")
+    [[ -n "$branch" ]] && echo " ${branch} "
+  fi
 }
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
@@ -145,7 +155,7 @@ alias cdc="cd /mnt/c"
 
 
 
-PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\][\t]\[\e[0;m\] ${os_space}\[\e[0;32m\]Nchpg\[\e[0;m\]: \[\033[01;34m\]\w\[\033[00m\] \[\e[91m\]$(parse_git_branch)\[\e[00m\]$ '
+PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\][\t]\[\e[0;m\] ${os_space}\[\e[0;32m\]Nchpg\[\e[0;m\]: \[\033[01;34m\]\w\[\033[00m\] \[\e[38;2;255;107;129m\]$(parse_git_branch)\[\e[00m\]$ '
 
 
 alias Pshort="PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[00m\]\[\e[91m\]$(parse_git_branch)\[\e[00m\] $ '"

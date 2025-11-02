@@ -43,6 +43,8 @@ alias ll='ls -lh --color=auto'
 alias la='ls -A --color=auto'
 alias l='ls -CF --color=auto'
 
+alias su='sudo su -s "$0"'
+
 autoload -Uz colors && colors
 autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -53,9 +55,12 @@ setopt NO_BEEP
 # PS1
 
 git_branch() {
-  local branch
-  branch=$(git symbolic-ref --short HEAD 2>/dev/null) || branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) || return 0
-  echo "%F{red} ${branch}%f"
+  local head_file="$PWD/.git/HEAD"
+  if [[ -r "$head_file" ]]; then
+    local branch
+    branch=$(sed -n 's|ref: refs/heads/||p' "$head_file")
+    [[ -n "$branch" ]] && echo "%F{red} ${branch}%f"
+  fi
 }
 
 # Right prompt: time
