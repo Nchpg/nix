@@ -3,7 +3,7 @@
 set -e
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 [rebuild|toggle|lock|unlock]"
+    echo "Usage: $0 [rebuild|toggle|lock|unlock|hide|show]"
     exit 1
 fi
 
@@ -148,8 +148,14 @@ elif [ "$ACTION" == "lock" ]; then
 elif [ "$ACTION" == "unlock" ]; then
     # unlock files
     unlock_file "$(get_real_private_file)"
+elif [ "$ACTION" == "hide" ]; then
+    git_ignore_change "$(get_real_private_file)"
+    git_exclude_file "$(get_real_private_file)"
+elif [ "$ACTION" == "show" ]; then
+    git_unignore_change "$(get_real_private_file)"
+    git_unexclude_file "$(get_real_private_file)"
 else
-    echo "Argument invalide : $ACTION. Utilisez 'git', 'toggle', 'lock' ou 'unlock'"
+    echo "Argument invalide : $ACTION. Utilisez 'git', 'toggle', 'lock', 'unlock', 'hide' or 'show'"
     exit 1
 fi
 
