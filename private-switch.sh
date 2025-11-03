@@ -145,11 +145,9 @@ if [ "$ACTION" == "toggle" ] || [ "$ACTION" == "rebuild" ]; then
 elif [ "$ACTION" == "lock" ]; then
     # lock files
     lock_file "$(get_real_private_file)"
-    git_ignore_change "$(get_real_private_file)"
 elif [ "$ACTION" == "unlock" ]; then
     # unlock files
     unlock_file "$(get_real_private_file)"
-    git_unignore_change "$(get_real_private_file)"
 else
     echo "Argument invalide : $ACTION. Utilisez 'git', 'toggle', 'lock' ou 'unlock'"
     exit 1

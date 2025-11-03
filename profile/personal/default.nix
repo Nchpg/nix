@@ -5,6 +5,9 @@
 
   config = {
     systemSettings = {
+      # uncomment to disable user password check
+      # verify_all_users_have_passwd = false;
+
       users = [ 
         {
           name = "nchpg";

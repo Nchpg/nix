@@ -58,6 +58,12 @@ in
           };
         });
       };
+
+      verify_all_users_have_passwd = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Verify before rebuild that each user have a hashpassword in the config"; 
+      };
     };
   };
 
@@ -76,11 +82,12 @@ in
         assertion = lib.length config.systemSettings.users > 0;
         message = "Erreur : la liste des utilisateurs ne peut pas être vide !";
       }
+    ] ++ (if config.systemSettings.verify_all_users_have_passwd then [
       {
         assertion = lib.all (u: u.hashedPassword != null) mergedUsersList;
         message = "Erreur : tous les utilisateurs doivent avoir un hashedPassword défini dans la configuration !";
       }
-    ];
+    ] else []);
 
     users.users = builtins.listToAttrs
       (map (user: {
