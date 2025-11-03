@@ -1,4 +1,4 @@
-{ lib, pkgs-stable, homeName, ... }:
+{ lib, pkgs-stable, target, ... }:
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -18,7 +18,7 @@
   };
 
   # Define your hostname.
-  networking.hostName = homeName; 
+  networking.hostName = "${target.profile}-${target.host}"; 
 
   # Use all available firmware (needed for sound)
   hardware.enableAllFirmware = true;
@@ -77,6 +77,8 @@
     variant = "azerty";
     options = "numpad:mac";
   };
+
+  hardware.bluetooth.enable = true;
 
   # Configure console keymap
   console.keyMap = "fr";

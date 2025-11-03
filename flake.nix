@@ -31,22 +31,25 @@
       };
 
       lib = inputs.nixpkgs-stable.lib;
-      hosts = builtins.filter (x: x != null) (lib.mapAttrsToList (name: value: if (value == "directory") then name else null) (builtins.readDir ./profile));
+      profiles = builtins.filter (x: x != null) (lib.mapAttrsToList (name: value: if value == "directory" then name else null) (builtins.readDir ./profile));
+      hosts    = builtins.filter (x: x != null) (lib.mapAttrsToList (name: value: if value == "directory" then name else null) (builtins.readDir ./host));
 
+      targets = lib.concatMap (profile: map (host: { profile = profile; host = host; }) hosts) profiles;
     in
     {
       nixosConfigurations = builtins.listToAttrs
-        (map (host: {
-          name = host;
+        (map (target: {
+          name = "${target.profile}.${target.host}";
           value = lib.nixosSystem {
-            system = "x86_64-linux";
+            inherit system;
             modules = [
-              (./profile/${host})
-
-              # system modules
+               # build host
+              ./host
+               # build profile
+              ./profile
+               # system modules
               ./modules/system
-
-              # home manager
+              
               inputs.home-manager.nixosModules.home-manager
               ({ config, ... }: {
                 home-manager.extraSpecialArgs = {
@@ -56,15 +59,15 @@
                   systemSettings = config.systemSettings; 
                 };
               })
-
             ];
             specialArgs = {
               inherit pkgs-stable;
               inherit inputs;
-              homeName = host;
+              inherit target;
             };
           };
-        }) hosts);
+        }) targets);
+
     };
 }
 

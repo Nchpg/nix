@@ -3,10 +3,10 @@
 {
   imports = (lib.optional (builtins.pathExists ./private.nix) ./private.nix);
 
-  config = {
+  config = lib.mkDefault {
     nixpkgs.config.allowUnfree = true;
 
-    userSettings = lib.mkForce {
+    userSettings = {
       defaultPkgs = pkgs-stable;
 
       vim = {

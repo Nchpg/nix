@@ -42,7 +42,7 @@ fi
 
 echo "🚀 Starting NixOS system rebuild..."
 
-sudo nixos-rebuild switch --flake .#personal --impure --show-trace
+sudo nixos-rebuild switch --flake .#personal.gram --impure --show-trace
 
 if [ $? -eq 0 ]; then
     echo "✅ System rebuild successful."
